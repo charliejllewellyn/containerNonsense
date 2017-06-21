@@ -1,4 +1,4 @@
 FROM openshift/jenkins-2-centos7:latest
 
-RUN yum install python-devel python-pip \
-    pip install python-openstackclient
+RUN sudo yum install python-devel python-pip \
+    sudo pip install python-openstackclient
