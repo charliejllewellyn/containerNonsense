@@ -5,19 +5,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'openstackCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    echo 'build'
-                }
+                echo 'Building..'
             }
         }
-        stage('Test'){
+        stage('Test') {
             steps {
-                echo 'test'
+                echo 'Testing..'
             }
         }
         stage('Deploy') {
             steps {
-                echo 'deploy'
+                echo 'Deploying....'
             }
         }
     }
