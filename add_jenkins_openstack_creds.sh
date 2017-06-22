@@ -1,9 +1,12 @@
 #!/bin/bash
 
-echo enter Jenkins username:
-read jenkins_user
-echo enter Jenkins API token:
-read jenkins_token
+#echo enter Jenkins username:
+#read jenkins_user
+#echo enter Jenkins API token:
+#read jenkins_token
+
+jenkins_user='demo-admin'
+jenkins_token='76f8371a0ef26f0c8f03259461c471bc'
 
 openstack_password=$(export | grep OS_PASSWORD | awk -F= '{print $2}' | sed "s/'//g")
 openstack_username=$(export | grep OS_USERNAME | awk -F= '{print $2}')
