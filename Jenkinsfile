@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 pipeline {
     environment {
         OS_AUTH_URL="https://cor00005.cni.ukcloud.com:13000/v2.0"
