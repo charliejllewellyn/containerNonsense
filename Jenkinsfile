@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openstackCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "chmod 755b$WORKSPACE/$JOB/jenkins_heat_deploy_openshift.sh"
+                    sh "chmod 755 $WORKSPACE/$JOB/jenkins_heat_deploy_openshift.sh"
                     sh "$WORKSPACE/$JOB/jenkins_heat_deploy_openshift.sh"
                 }
             }
