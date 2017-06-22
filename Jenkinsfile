@@ -12,8 +12,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                    withCredentials([usernamePassword(credentialsId: 'openstackCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    echo "test"
+                withCredentials([usernamePassword(credentialsId: 'openstackCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh "$WORKSPACE/$JOB/jenkins_heat_deploy_openshift.sh"
                 }
             }
         }
