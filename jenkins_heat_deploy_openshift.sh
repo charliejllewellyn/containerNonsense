@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export OS_AUTH_URL=$OS_AUTH_URL
+export OS_REGION_NAME=$OS_REGION_NAME
+export OS_TENANT_ID=$OS_TENANT_ID
+export OS_TENANT_NAME=$OS_TENANT_NAME
+export OS_USERNAME="$USERNAME"
+export OS_PASSWORD="$PASSWORD"
+
+openstack catalog list
