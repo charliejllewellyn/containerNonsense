@@ -1,0 +1,131 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: jenkins
+  namespace: continuous-integration
+  selfLink: /oapi/v1/namespaces/continuous-integration/deploymentconfigs/jenkins
+  uid: 4f37409a-5781-11e7-87d9-fa163e339909
+  resourceVersion: '763701'
+  generation: 2
+  creationTimestamp: '2017-06-22T19:30:54Z'
+  labels:
+    app: jenkins-persistent
+    template: jenkins-persistent-template
+spec:
+  strategy:
+    type: Recreate
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - jenkins
+        from:
+          kind: ImageStreamTag
+          namespace: continuous-integration
+          name: 'containernonsense:latest'
+        lastTriggeredImage: >-
+          172.30.19.94:5000/continuous-integration/containernonsense@sha256:21210f3278e354c070caf00c1c77bb56258c077625d5c44ee0558d0947870601
+    - type: ConfigChange
+  replicas: 1
+  test: false
+  selector:
+    name: jenkins
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: jenkins
+    spec:
+      volumes:
+        - name: jenkins-data
+          persistentVolumeClaim:
+            claimName: jenkins
+      containers:
+        - name: jenkins
+          image: >-
+            172.30.19.94:5000/continuous-integration/containernonsense@sha256:21210f3278e354c070caf00c1c77bb56258c077625d5c44ee0558d0947870601
+          env:
+            - name: OPENSHIFT_ENABLE_OAUTH
+              value: 'true'
+            - name: OPENSHIFT_ENABLE_REDIRECT_PROMPT
+              value: 'true'
+            - name: OPENSHIFT_JENKINS_JVM_ARCH
+              value: i386
+            - name: KUBERNETES_MASTER
+              value: 'https://kubernetes.default:443'
+            - name: KUBERNETES_TRUST_CERTIFICATES
+              value: 'true'
+            - name: JNLP_SERVICE_NAME
+              value: jenkins-jnlp
+          resources:
+            limits:
+              memory: 512Mi
+          volumeMounts:
+            - name: jenkins-data
+              mountPath: /var/lib/jenkins
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 420
+            timeoutSeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 3
+            timeoutSeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities: {}
+            privileged: false
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: jenkins
+      serviceAccount: jenkins
+      securityContext: {}
+status:
+  latestVersion: 1
+  observedGeneration: 2
+  replicas: 1
+  updatedReplicas: 1
+  availableReplicas: 1
+  unavailableReplicas: 0
+  details:
+    message: image change
+    causes:
+      - type: ImageChange
+        imageTrigger:
+          from:
+            kind: ImageStreamTag
+            namespace: continuous-integration
+            name: 'containernonsense:latest'
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2017-06-22T19:31:37Z'
+      lastTransitionTime: '2017-06-22T19:31:37Z'
+      message: Deployment config has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2017-06-22T19:31:38Z'
+      lastTransitionTime: '2017-06-22T19:31:38Z'
+      reason: NewReplicationControllerAvailable
+      message: replication controller "jenkins-1" successfully rolled out
+  readyReplicas: 1
+

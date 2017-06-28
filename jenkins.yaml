@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  annotations:
+    openshift.io/display-name: Jenkins
+    openshift.io/image.dockerRepositoryCheck: 2017-06-21T09:46:23Z
+  creationTimestamp: 2017-06-21T09:45:42Z
+  generation: 2
+  name: jenkins
+  namespace: continuous-integration
+  resourceVersion: "636268"
+  selfLink: /oapi/v1/namespaces/continuous-integration/imagestreams/jenkins
+  uid: 64610024-5666-11e7-87d9-fa163e339909
+spec:
+  tags:
+  - annotations:
+      description: Provides a Jenkins 1.X server on CentOS 7. For more information
+        about using this container image, including OpenShift considerations, see
+        https://github.com/openshift/jenkins/blob/master/README.md.
+      iconClass: icon-jenkins
+      openshift.io/display-name: Jenkins 1.X
+      tags: hidden,jenkins
+      version: 1.x
+    from:
+      kind: DockerImage
+      name: openshift/jenkins-1-centos7:latest
+    generation: 2
+    importPolicy: {}
+    name: "1"
+  - annotations:
+      description: Provides a Jenkins v2.x server on CentOS 7. For more information
+        about using this container image, including OpenShift considerations, see
+        https://github.com/openshift/jenkins/blob/master/README.md.
+      iconClass: icon-jenkins
+      openshift.io/display-name: Jenkins 2.X
+      tags: jenkins
+      version: 2.x
+    from:
+      kind: DockerImage
+      name: openshift/jenkins-2-centos7:latest
+    generation: 2
+    importPolicy: {}
+    name: "2"
+  - annotations:
+      description: |-
+        Provides a Jenkins server on CentOS 7. For more information about using this container image, including OpenShift considerations, see https://github.com/openshift/jenkins/blob/master/README.md.
+
+        WARNING: By selecting this tag, your application will automatically update to use the latest version of Jenkins available on OpenShift, including major versions updates.
+      iconClass: icon-jenkins
+      openshift.io/display-name: Jenkins (Latest)
+      tags: jenkins
+    from:
+      kind: ImageStreamTag
+      name: "2"
+    generation: 1
+    importPolicy: {}
+    name: latest
+status:
+  dockerImageRepository: 172.30.19.94:5000/continuous-integration/jenkins
+  tags:
+  - items:
+    - created: 2017-06-21T09:46:23Z
+      dockerImageReference: openshift/jenkins-2-centos7@sha256:2139bc280bb3717fbfd50e4f291afdec0b9822b40a3424d6ca137385731c4519
+      generation: 2
+      image: sha256:2139bc280bb3717fbfd50e4f291afdec0b9822b40a3424d6ca137385731c4519
+    tag: latest
+  - items:
+    - created: 2017-06-21T09:46:23Z
+      dockerImageReference: openshift/jenkins-2-centos7@sha256:2139bc280bb3717fbfd50e4f291afdec0b9822b40a3424d6ca137385731c4519
+      generation: 2
+      image: sha256:2139bc280bb3717fbfd50e4f291afdec0b9822b40a3424d6ca137385731c4519
+    tag: "2"
+  - items:
+    - created: 2017-06-21T09:46:23Z
+      dockerImageReference: openshift/jenkins-1-centos7@sha256:bb4e3a795b6aaef459d5f31a7048fcc6a842ecfd21eaf59eb9fe2a4aa13b8c38
+      generation: 2
+      image: sha256:bb4e3a795b6aaef459d5f31a7048fcc6a842ecfd21eaf59eb9fe2a4aa13b8c38
+    tag: "1"
